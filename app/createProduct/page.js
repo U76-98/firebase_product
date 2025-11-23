@@ -1,9 +1,12 @@
 "use client";
 
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import { addProduct } from "../core/productLogic";
 
 export default function CreateProductPage() {
+  const router = useRouter();
+
   const [product, setProduct] = useState({
     id: "",
     name: "",
@@ -24,106 +27,52 @@ export default function CreateProductPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 p-6">
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 p-6">
+
+      {/* Back Button */}
+      <button
+        onClick={() => router.push("/products")}
+        className="absolute top-6 left-6 text-gray-700 hover:text-black px-4 py-2 border border-gray-400 rounded-lg bg-white hover:bg-gray-200 transition"
+      >
+        ← Back
+      </button>
+
+      {/* FORM */}
       <form
         onSubmit={handleSubmit}
-        className="w-full max-w-md bg-white border border-gray-200 rounded-xl shadow-sm p-6 space-y-5"
+        className="w-full max-w-md bg-white border border-gray-300 rounded-xl shadow-lg p-8 space-y-5"
       >
-        <h2 className="text-2xl font-semibold text-center mb-4 text-gray-800">
+        <h2 className="text-3xl font-semibold text-center mb-6 text-gray-900">
           Create Product
         </h2>
 
-        {/* Product ID */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Product ID
-          </label>
-          <input
-            type="text"
-            name="id"
-            value={product.id}
-            onChange={handleChange}
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-gray-800 outline-none"
-            placeholder="Enter product ID"
-          />
-        </div>
+        {[
+          { label: "Product ID", name: "id", type: "text", placeholder: "Enter product ID" },
+          { label: "Product Name", name: "name", type: "text", placeholder: "Enter product name" },
+          { label: "Price (₹)", name: "price", type: "number" },
+          { label: "Discount (%)", name: "discount", type: "number" },
+          { label: "Category", name: "category", type: "text", placeholder: "Enter category" },
+          { label: "Quantity", name: "quantity", type: "number" },
+        ].map((input, idx) => (
+          <div key={idx} className="space-y-1">
+            <label className="block text-sm font-medium text-gray-800">
+              {input.label}
+            </label>
 
-        {/* Product Name */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Product Name
-          </label>
-          <input
-            type="text"
-            name="name"
-            value={product.name}
-            onChange={handleChange}
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-gray-800 outline-none"
-            placeholder="Enter product name"
-          />
-        </div>
+            <input
+              type={input.type}
+              name={input.name}
+              value={product[input.name]}
+              onChange={handleChange}
+              placeholder={input.placeholder || ""}
+              className="w-full border border-gray-400 rounded-lg px-3 py-2 text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-gray-800 focus:border-gray-800 outline-none"
+            />
+          </div>
+        ))}
 
-        {/* Price */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Price (₹)
-          </label>
-          <input
-            type="number"
-            name="price"
-            value={product.price}
-            onChange={handleChange}
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-gray-800 outline-none"
-          />
-        </div>
-
-        {/* Discount */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Discount (%)
-          </label>
-          <input
-            type="number"
-            name="discount"
-            value={product.discount}
-            onChange={handleChange}
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-gray-800 outline-none"
-          />
-        </div>
-
-        {/* Category */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Category
-          </label>
-          <input
-            type="text"
-            name="category"
-            value={product.category}
-            onChange={handleChange}
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-gray-800 outline-none"
-            placeholder="Enter category"
-          />
-        </div>
-
-        {/* Quantity */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Quantity
-          </label>
-          <input
-            type="number"
-            name="quantity"
-            value={product.quantity}
-            onChange={handleChange}
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-gray-800 outline-none"
-          />
-        </div>
-
-        {/* Submit */}
         <button
           type="submit"
-          className="w-full bg-gray-800 text-white py-2 rounded-lg hover:bg-black transition"
+          className="w-full bg-gray-900 text-white py-3 rounded-lg font-medium text-lg hover:bg-black transition"
         >
           Submit
         </button>
